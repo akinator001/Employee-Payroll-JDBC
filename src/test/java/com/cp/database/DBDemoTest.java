@@ -2,6 +2,7 @@ package com.cp.database;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -43,5 +44,15 @@ public class DBDemoTest {
 		List<EmployeePayrollData> employeePayrollData = employeePayrollService
 				.readEmployeePayrollForDateRange(IOService.DB_IO, startDate, endDate);
 		Assert.assertEquals(4, employeePayrollData.size());
+	}
+	
+	@Test
+	public void givenPayrollData_WhenAverageSalaryRetrievedByGender_ShouldReturnProperValue() {
+		EmployeePayrollService employeePayrollService = new EmployeePayrollService();
+		employeePayrollService.readEmployeePayrollData(IOService.DB_IO);
+		Map<String, Double> averageSalaryByGender = employeePayrollService.readAverageSalaryByGender(IOService.DB_IO);
+		boolean boolResult = averageSalaryByGender.get("M").equals(2000000.00) && averageSalaryByGender.get("F").equals(3000000.00); 
+		Assert.assertTrue(boolResult);
+				
 	}
 }
