@@ -91,4 +91,7 @@ public class EmployeePayrollService {
 		employeePayrollList.add(employeePayrollData);
 	}
 	
+	public void removeEmployee(String name) {
+		employeePayrollDBService.removeEmployee(name);
+	}
 }
