@@ -94,4 +94,12 @@ public class EmployeePayrollService {
 	public void removeEmployee(String name) {
 		employeePayrollDBService.removeEmployee(name);
 	}
+	
+	public void addEmployeeToPayrollWithoutThreads(List<EmployeePayrollData> employeePayrollList) {
+		employeePayrollList.forEach(employeePayrollData -> {
+			System.out.println("Employee being added : " + employeePayrollData.name);
+			this.addEmployeeToPayroll(employeePayrollData.id,employeePayrollData.name, employeePayrollData.salary, employeePayrollData.start, employeePayrollData.gender,employeePayrollData.department);
+			System.out.println("Employee added : " + employeePayrollData.name);
+		});
+	}
 }
