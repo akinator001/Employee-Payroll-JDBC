@@ -240,4 +240,34 @@ public class EmployeePayrollDBService {
 		}
 		return employeePayrollData;
 	}
+	
+	public void removeEmployee(String name) {
+		int empId = -1;
+		EmployeePayrollData employeePayrollData = null;
+		Connection connection = null;
+		try {
+			connection = this.getConnection();
+			connection.setAutoCommit(false);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		int employeeId = 0;
+		try (Statement statement = this.getConnection().createStatement()) {
+			String sql = String.format("select * from employee where name = '%s';", name);
+			ResultSet resultSet = statement.executeQuery(sql);
+			if (resultSet.next()) {
+				employeeId = resultSet.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		}
+		employeeId=34;
+		try (Statement statement = this.getConnection().createStatement()) {
+			String sql = String.format("update employee_payroll set is_active = false where id = %s;", employeeId);
+			int rowsAffected = statement.executeUpdate(sql, statement.RETURN_GENERATED_KEYS);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }
