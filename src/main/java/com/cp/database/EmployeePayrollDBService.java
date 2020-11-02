@@ -131,4 +131,42 @@ public class EmployeePayrollDBService {
 		}
 		return employeePayrollList;
 	}
+
+	public Map<String, Double> getAverageSalaryByGender() {
+		String sql = "select gender,avg(basic_pay) as avg_salary from employee_payroll group by gender;";
+		Map<String, Double> genderToAverageSalaryMap = new HashMap<>();
+		try (Connection connection = this.getConnection()) {
+			Statement statement = connection.createStatement();
+			ResultSet result = statement.executeQuery(sql);
+			while (result.next()) {
+				String gender = result.getString("gender");
+				double salary = result.getDouble("avg_salary");
+				genderToAverageSalaryMap.put(gender, salary);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return genderToAverageSalaryMap;
+	}
+	
+	public EmployeePayrollData addEmployee(String name, double salary, LocalDate startDate, String gender, String dept) {
+		String sql = String.format(
+				"insert into employee_payroll (name,basic_pay,start,gender,department,deductions,taxable_pay,tax,net_pay) values ('%s',%.2f,'%s','%s','%s',0.00,0.00,0.00,0.00);", name,
+				salary, startDate.toString(), gender,dept);
+		int empId = -1;
+		EmployeePayrollData employeePayrollData = null;
+		try (Connection connection = this.getConnection()) {
+			Statement statement = connection.createStatement();
+			int rowsAffected = statement.executeUpdate(sql, statement.RETURN_GENERATED_KEYS);
+			if (rowsAffected == 1) {
+				ResultSet resultSet = statement.getGeneratedKeys();
+				if (resultSet.next())
+					empId = resultSet.getInt(1);
+			}
+			employeePayrollData = new EmployeePayrollData(empId, name, salary, startDate);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return employeePayrollData;
+	}
 }
