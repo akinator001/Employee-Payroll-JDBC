@@ -37,20 +37,8 @@ public class EmployeePayrollDBService {
 		return employeePayrollList;
 
 	}
-
-	private Connection getConnection() throws SQLException {
-		String jdbcURL = "jdbc:mysql://localhost:3306/payroll_service?useSSL=false";
-		String userName = "root";
-		String password = "Aakash@123";
-		Connection connection = null;
-		System.out.println("Connecting to database:" + jdbcURL);
-		connection = DriverManager.getConnection(jdbcURL, userName, password);
-		System.out.println("Connection is successfull!!!" + connection);
-		return connection;
-	}
-
 	
-	private synchronized Connection getConnection1() throws SQLException {
+	private synchronized Connection getConnection() throws SQLException {
 		connectionCounter++;
 		String jdbcURL = "jdbc:mysql://localhost:3306/payroll_service?useSSL=false";
 		String userName = "root";
