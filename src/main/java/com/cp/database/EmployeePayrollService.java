@@ -16,7 +16,7 @@ public class EmployeePayrollService {
 	}
 
 	public EmployeePayrollService(List<EmployeePayrollData> employeePayrollList) {
-		this.employeePayrollList = employeePayrollList;
+		EmployeePayrollService.employeePayrollList =  new ArrayList<>(employeePayrollList);
 	}
 
 	public static long countEntries() {
@@ -25,9 +25,9 @@ public class EmployeePayrollService {
 
 	public List<EmployeePayrollData> readEmployeePayrollData(IOService dbIo) {
 		if (dbIo.equals(IOService.DB_IO)) {
-			this.employeePayrollList = employeePayrollDBService.readData();
+			EmployeePayrollService.employeePayrollList = employeePayrollDBService.readData();
 		}
-		return this.employeePayrollList;
+		return EmployeePayrollService.employeePayrollList;
 	}
 
 	public void updateEmployeeSalary(String name, double salary) {
@@ -185,4 +185,8 @@ public class EmployeePayrollService {
 		}
 	}
 
+	
+	public void addEmployeeToPayroll(EmployeePayrollData employeePayrollData, IOService ioService) {
+			employeePayrollList.add(employeePayrollData);
+	}
 }
