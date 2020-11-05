@@ -5,7 +5,7 @@ import java.util.*;
 
 public class EmployeePayrollService {
 	public enum IOService {
-		DB_IO;
+		DB_IO,REST_IO;
 	};
 
 	private static List<EmployeePayrollData> employeePayrollList;
