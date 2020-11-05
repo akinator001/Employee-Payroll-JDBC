@@ -3,7 +3,7 @@ package com.cp.database;
 import java.time.LocalDate;
 
 public class EmployeePayrollData {
-	int id;
+	public int id;
 	String name;
 	double salary;
 	LocalDate start;
